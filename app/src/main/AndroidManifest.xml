@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.camera.any" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:requestLegacyExternalStorage="true"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.DocumentScannerAI"
+        tools:targetApi="31">
+        <activity
+            android:name=".activitvities.ScanDetailsFirstActivity"
+            android:exported="false"
+            android:label="@string/title_activity_scan_details_first"
+            android:theme="@style/Theme.DocumentScannerAI" />
+        <activity
+            android:name=".activitvities.CameraScanActivity"
+            android:exported="false"
+            android:label="@string/title_activity_camera_scan"
+            android:theme="@style/Theme.DocumentScannerAI" />
+        <activity
+            android:name=".activitvities.HomeActivity"
+            android:exported="false"
+            android:label="@string/title_activity_home"
+            android:theme="@style/Theme.DocumentScannerAI" />
+        <activity
+            android:name=".activitvities.IntroActivity"
+            android:exported="false"
+            android:label="@string/title_activity_splash"
+            android:theme="@style/Theme.DocumentScannerAI" />
+        <activity
+            android:name=".activitvities.SplashActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.DocumentScannerAI">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".activitvities.CloudBackupActivity"/>
+        <activity android:name=".activitvities.SignaturePhotoActivity"/>
+        <activity android:name=".activitvities.ScanDetailsSecondActivity"/>
+        <activity android:name=".activitvities.ExporttoDocActivity"/>
+        <activity android:name=".activitvities.SettingActivity"/>
+        <activity android:name=".activitvities.IDCardScanActivity"/>
+        <activity android:name=".activitvities.IDCardScanDetailsFirstActivity"/>
+        <activity android:name=".activitvities.EditIDCardActivity"/>
+        <activity android:name=".activitvities.CreateFolderActivity"/>
+        <activity android:name=".activitvities.RecentFilesActivity"/>
+        <activity android:name=".activitvities.ShowImagePagerActivity"/>
+        <activity android:name=".activitvities.CustomFolderDetailsActivity"/>
+        <activity android:name=".activitvities.DeleteCustomFolderActivity"/>
+        <activity android:name=".activitvities.CloudBackupHomeActivity"/>
+        <activity android:name=".activitvities.UploadFileActivity"/>
+        <activity android:name=".activitvities.UploadingFileActivity"/>
+        <activity android:name=".activitvities.MoreToolsActivity"/>
+        <activity android:name=".activitvities.ConverttoWordActivity"/>
+        <activity android:name=".activitvities.CameraView"/>
+        <activity android:name=".screens.ImageTransformation"/>
+
+
+
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+    </application>
+
+</manifest>
