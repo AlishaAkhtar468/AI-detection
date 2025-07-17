@@ -16,9 +16,16 @@ import androidx.compose.ui.graphics.Color
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-
 @Composable
 fun DrawFunction(k1: Offset, k2: Offset, k3: Offset, k4: Offset) {
+    // Check if all points are Offset.Zero (no detection)
+    val noDetection = (k1 == Offset.Zero && k2 == Offset.Zero && k3 == Offset.Zero && k4 == Offset.Zero)
+
+    if (noDetection) {
+        // Do not draw anything when no detection
+        return
+    }
+
     // Initial points
     var p1 by remember { mutableStateOf(Offset(0f, 0f)) }
     var p2 by remember { mutableStateOf(Offset(0f, 0f)) }
@@ -32,15 +39,15 @@ fun DrawFunction(k1: Offset, k2: Offset, k3: Offset, k4: Offset) {
     val animatedPoints = remember {
         pointsP.map { point ->
             Animatable(point.x) to Animatable(point.y)
-        }    }
-
-    // Animation specification
+        }
+    }
 
     val animationSpec = tween<Float>(durationMillis = 800)
 
     LaunchedEffect(k1, k2, k3, k4) {
         pointsQ = arrayOf(k1, k2, k3, k4)
-        // Launch animations for all points at the same time
+
+        // Launch animations for all points
         animatedPoints.forEachIndexed { index, (animatableX, animatableY) ->
             val targetPoint = pointsQ[index]
             launch {
@@ -51,7 +58,6 @@ fun DrawFunction(k1: Offset, k2: Offset, k3: Offset, k4: Offset) {
             }
         }
 
-        // Wait for the animation to complete
         delay(animationSpec.durationMillis.toLong())
     }
 

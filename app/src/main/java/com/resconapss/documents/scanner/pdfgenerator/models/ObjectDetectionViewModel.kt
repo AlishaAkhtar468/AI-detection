@@ -21,14 +21,13 @@ class ObjectDetectionViewModel : ViewModel() {
     val q4: LiveData<Offset> = _q4
     val drawableText: LiveData<String> = _drawableText
 
-    fun updateDetectionResults(q1Value: Offset, q2Value: Offset, q3Value: Offset, q4Value: Offset, text: String) {
-        CoroutineScope(Dispatchers.Main).launch {
-            _q1.value = q1Value
-            _q2.value = q2Value
-            _q3.value = q3Value
-            _q4.value = q4Value
-            _drawableText.value = text
-        }
+    fun updateDetectionResults(q1: Offset, q2: Offset, q3: Offset, q4: Offset, time: String) {
+        _q1.postValue(q1)
+        _q2.postValue(q2)
+        _q3.postValue(q3)
+        _q4.postValue(q4)
+
+
     }
 }
 

@@ -93,8 +93,8 @@ class ObjectDetectorHelper(
         val tensorImage = imageProcessor.process(TensorImage.fromBitmap(image))
 
         val results = objectDetector?.detect(tensorImage)
-        results?.let { detections ->
-            detections.forEach { detection ->
+        if (!results.isNullOrEmpty()) {
+            results.forEach { detection ->
                 val boundingBox = detection.boundingBox
                 val score = detection.categories.firstOrNull()?.score ?: 0f
 
@@ -107,13 +107,11 @@ class ObjectDetectorHelper(
                     val left = (boundingBox.left * scaleX) - 100
                     val right = (boundingBox.right * scaleX) + 100
 
-                    // Raw detected points
                     val q1 = Offset(left, top)
                     val q2 = Offset(right, top)
                     val q3 = Offset(right, bottom)
                     val q4 = Offset(left, bottom)
 
-                    // Smooth the points before updating ViewModel
                     val smoothQ1 = smoothEMA(q1, lastQ1).also { lastQ1 = it }
                     val smoothQ2 = smoothEMA(q2, lastQ2).also { lastQ2 = it }
                     val smoothQ3 = smoothEMA(q3, lastQ3).also { lastQ3 = it }
@@ -124,6 +122,15 @@ class ObjectDetectorHelper(
                     Log.d("SmoothDetection", "Q1=$smoothQ1 Q2=$smoothQ2 Q3=$smoothQ3 Q4=$smoothQ4")
                 }
             }
+        } else {
+            // ❗ No detection - reset points to Offset.Zero to clear lines
+            lastQ1 = null
+            lastQ2 = null
+            lastQ3 = null
+            lastQ4 = null
+
+            viewModel.updateDetectionResults(Offset.Zero, Offset.Zero, Offset.Zero, Offset.Zero, inferenceTime.toString())
+            Log.d("SmoothDetection", "No detection - cleared points")
         }
 
         inferenceTime = SystemClock.uptimeMillis() - inferenceTime
